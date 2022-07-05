@@ -30,19 +30,11 @@ ENV PATH=$PATH:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
 
 WORKDIR /apps/hadoop-3.1.1
 
-COPY /conf/core-site.xml etc/hadoop/ 
-COPY /conf/hdfs-site.xml etc/hadoop/
-
-RUN echo export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 >> etc/hadoop/hadoop-env.sh \
-    echo export HDFS_NAMENODE_USER=root >> etc/hadoop/hadoop-env.sh \
-    echo export HDFS_DATANODE_USER=root >> etc/hadoop/hadoop-env.sh \
-    echo export HDFS_SECONDARYNAMENODE_USER=root >> etc/hadoop/hadoop-env.sh \
-    echo export YARN_RESOURCEMANAGER_USER=root >> etc/hadoop/hadoop-env.sh \
-    echo export YARN_NODEMANAGER_USER=root >> etc/hadoop/hadoop-env.sh
+COPY /conf/* etc/hadoop/
 
 RUN hdfs namenode -format
 
-EXPOSE 9870
+EXPOSE 9870 8088 
 
 ADD start.sh /
 RUN chmod +x /start.sh
